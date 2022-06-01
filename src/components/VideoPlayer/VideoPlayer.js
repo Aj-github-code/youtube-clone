@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {useParams} from 'react-router';
+import {useParams} from 'react-router-dom';
 import Video from './../Video/Video'
 import './VideoPlayer.css';
 import RecommendedVideos from '../RecommendedVideos/RecommendedVideos';
@@ -19,7 +19,7 @@ const VideoPlayer = () => {
         setVideoInfo([]);
         setIsLoading(true);
         axios
-          .get(`https://www.googleapis.com/youtube/v3/videos?part=snippet%2C%20statistics&id=dsOfWhdSmXQ&key=AIzaSyAWTAkCu0VVQ9t-OvkEpYm7cizdtAHDuyU`)
+          .get(`https://www.googleapis.com/youtube/v3/videos?part=snippet%2C%20statistics&id=${videoId}&key=AIzaSyAWTAkCu0VVQ9t-OvkEpYm7cizdtAHDuyU`)
           .then(response => {
               createVideoInfo(response.data['items'][0]);
               setIsError(false);
@@ -36,10 +36,10 @@ const VideoPlayer = () => {
         const stats = video.statistics;
         const channelId = snippet.channelId;
         const response = await axios
-                              .get(`https://www.googleapis.com/youtube/v3/channels?part=snippet%2C%20statistics&id=dsOfWhdSmXQ&key=AIzaSyAWTAkCu0VVQ9t-OvkEpYm7cizdtAHDuyU`)
+        .get(`https://www.googleapis.com/youtube/v3/videos?part=snippet%2C%20statistics&id=${videoId}&key=AIzaSyAWTAkCu0VVQ9t-OvkEpYm7cizdtAHDuyU`)
         // console.log(response);
-        // const channelImage = response.data.items[0].snippet.thumbnails.medium.url;
-        // const subs = response.data.items[0].statistics.subscriberCount;
+        const channelImage = response.data.items[0].snippet.thumbnails.medium.url;
+        const subs = response.data.items[0].statistics.subscriberCount;
         const publishedDate = new Date(snippet.publishedAt).toLocaleDateString('en-GB', {  
                                                                 day : 'numeric',
                                                                 month : 'short',
@@ -57,11 +57,11 @@ const VideoPlayer = () => {
             description,
             publishedDate,
             channelTitle,
-            // channelImage,
+            channelImage,
             viewCount,
             likeCount,
             dislikeCount,
-            // subs
+            subs
         });
         setIsLoading(false);
     }

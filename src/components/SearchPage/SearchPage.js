@@ -3,7 +3,7 @@ import "./SearchPage.css";
 import TuneIcon from '@material-ui/icons/Tune';
 import ChannelRow from './../ChannelRow/ChannelRow';
 import VideoRow from './../VideoRow/VideoRow';
-import {useParams} from 'react-router';
+import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import {DateTime} from 'luxon';
 import { Link } from 'react-router-dom';
